@@ -1,0 +1,55 @@
+Climate Conference Project
+Database: https://www.db-fiddle.com/f/pxMci1sLL945KHKYvpe9W6/1
+
+-- Left JOIN, List all VIP members and the hotel they’re staying at (if they have a reservation).
+SELECT vips.member_id, vips.first_name, vips.last_name, hotels.hotel_name
+FROM vips
+LEFT JOIN reservations
+ON vips.member_id = reservations. member_id
+LEFT JOIN hotels
+ON reservations.hotel = hotels.hotel_id;
+
+-- Inner JOIN, Show VIPs who have confirmed dinner RSVPs and the hotel name.
+SELECT vips.member_id, vips.first_name, vips.last_name, hotels.hotel_name
+FROM vips
+INNER JOIN reservations 
+ON vips.member_id = reservations.member_id
+INNER JOIN hotels
+ON reservations.hotel = hotels.hotel_id
+WHERE reservations.dinner_rsvp = 1;
+
+--Multiple JOINS; Show all VIPs with their event name and hotel name.
+SELECT vips.first_name, vips.last_name, events.event_name,hotels.hotel_name
+FROM vips
+LEFT JOIN events
+ON vips.event = events.event_id
+LEFT JOIN reservations
+ON reservations.member_id = vips.member_id
+LEFT JOIN hotels
+ON reservations.hotel = hotels.hotel_id;
+
+--Subquery; Find VIPs staying in the hotel with the most reservations.
+SELECT vips.first_name, vips.last_name
+FROM vips
+JOIN reservations
+ON reservations.member_id = vips.member_id
+WHERE reservations.hotel = 
+(SELECT hotel
+ FROM reservations
+ GROUP BY hotel
+ ORDER BY COUNT(*) DESC
+ LIMIT 1);
+ 
+ --Self JOIN; Find VIPs who are providing feedback to another VIP
+SELECT v1.first_name AS giver_first, v1.last_name AS giver_last,
+       v2.first_name AS receiver_first, v2.last_name AS receiver_last
+FROM vips v1
+JOIN vips v2 ON v1.provides_feedback_to = v2.member_id;
+
+--Aggregation; Show the number of dinner RSVPs per hotel.
+SELECT hotel_name, COUNT(*) AS dinner_count
+FROM reservations
+JOIN hotels
+ON reservations.hotel = hotels.hotel_id
+WHERE reservations.dinner_rsvp = 1
+GROUP BY hotels.hotel_name;

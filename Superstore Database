@@ -42,7 +42,7 @@ SELECT SUM(stock_quantity)
 FROM superstore
 WHERE category = 'Kitchen Supplies';
 
---Wtire a SQL query to show how many kitchen are avaible for purchase
+--Wtire a SQL query to show how many total kitchen supplies are avaible for purchase
 SELECT COUNT(category)
 FROM superstore
 WHERE category = 'Kitchen Supplies';

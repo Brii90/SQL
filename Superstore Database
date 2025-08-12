@@ -29,16 +29,25 @@ VALUES
 
 #For this project, I used SQL to query the superstore database to get information about items sold at the store and their prices.
 
-#stat that shows items by price
-Select item_name, price
-From superstore
-Order BY price asc;
+SELECT *
+FROM superstore;
 
-#stat that shows item price
-Select Sum (price)
-From superstore;
+--Write a SQL query that orders the items by price.
+SELECT item_name, price
+FROM superstore
+ORDER BY price;
 
-#stat that shows price for items in Kitchen Supplies
-Select Max(price)
-From superstore
-Where category="Kitchen Supplies"
+--Write a SQL query to show the sum of stock quantity in Kitchen Supplies category
+SELECT SUM(stock_quantity)
+FROM superstore
+WHERE category = 'Kitchen Supplies';
+
+--Wtire a SQL query to show how many kitchen are avaible for purchase
+SELECT COUNT(category)
+FROM superstore
+WHERE category = 'Kitchen Supplies';
+
+--How many air purifers are in stock
+SELECT item_name, stock_quantity
+FROM superstore
+WHERE item_name = 'Air Purifier';
